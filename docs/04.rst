@@ -1,0 +1,52 @@
+=====================
+4. Flaskを使いこなす1  
+=====================
+FlaskrをベースにWebアプリケーションを作りこむにあたって
+必要そうな内容を独断と偏見でチョイスして学習していきます。
+
+1. ユーザーログイン処理を改善する 30分
+    * Flask-Script 
+    * Flask-Login 
+    * WTForms
+2. ログ Logging  10分
+3. デバッグ 10分
+4. テスト 15分
+
+
+1. コマンドライン・インタフェースの作成
+========================================
+Flaskrではconfigに書いたadminユーザーでログインしていますが、
+追加と削除ができたら便利です。
+
+
+
+
+
+
+FlaskrをSQLAlchemyを使ったものに変更する
+========================================
+Flask-SQLAlchemyをインストールする::
+
+    pip install Flask-SQLAlchemy
+
+flaskr/flaskr.py
+
+.. literalinclude:: ../samples/04/1/flaskr.py
+
+diff
+
+.. literalinclude:: ../samples/04/1/flaskr.diff
+    :language: diff
+
+
+
+
+---------------------------
+2. FormをWTFormsにする
+---------------------------
+フォームをWTFormsというライブラリを使って、クラス化します。
+
+ここらへんで、djangoを使ったほうがよかったんじゃ・・・、という気持ちが湧いてきます。
+
+
+3.

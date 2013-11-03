@@ -1,0 +1,8 @@
+sphinx
+sphinxcontrib-blockdiag
+sphinxcontrib-nwdiag
+sphinxcontrib-actdiag
+sphinxcontrib-seqdiag
+sphinxcontrib-googleanalytics
+sphinxjp.themecore
+

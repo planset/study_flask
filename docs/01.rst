@@ -1,0 +1,150 @@
+===================================
+1. Webアプリケーションを作る準備 
+===================================
+
+----
+概要
+----
+Flaskでウェブアプリケーションを開発するために必要となるライブラリや
+ツールをインストールします。
+
+
+----------------------------------
+今回のハンズオン用のファイルを取得
+----------------------------------
+gitが使える方::
+
+    git clone git@github.com:planset/study_python_flask
+
+gitが使えない方は
+`planset/study_python_flask <http://github.com/planset/study_python_flask>`_
+からzipファイルをダウンロードして展開してください。
+
+
+----------------
+各種インストール
+----------------
+
+pip
+===
+パッケージを管理するツールです。
+
+インストール方法::
+
+    easy_install pip
+
+    #mac
+    brew install pip
+    sudo port install py27-pip
+
+    #linux
+    sudo apt-get install python-pip
+    sudo yum install python-pip
+
+
+使い方::
+
+    # Flaskのパッケージをインストールする
+    pip install Flask
+
+    # flaskに関係するパッケージを検索する 
+    pip search Flask
+
+    # テキストファイルにまとめたパッケージを一度にインストールする。
+    pip install -r requirements.txt
+
+    # 現在の環境にインストールしているパッケージの一覧
+    pip freeze
+    
+    # いろいろインストールしたパッケージを別の環境でも
+    # インストールしたいときは、freeze -> install -r するとよい
+    pip freeze > requirements.txt
+    pip install -r requirements.txt
+
+
+virtualenv
+==========
+グローバルな環境のpythonには影響しないよう、
+個別のpython環境を管理するためのツールです。
+
+インストール方法::
+
+    pip intall virtualenv
+
+
+virtualenvwrapperも入れると便利です。
+
+
+Flask
+=====
+WebフレームワークのFlaskです。
+
+インストール方法::
+
+    pip install Flask
+
+
+-------------
+Flaskについて
+-------------
+Flaskはマイクロフレームワークと呼ばれる部類の
+ウェブアプリケーションフレームワークです。
+
+フルスタックフレームワークと違い必要最小限の機能だけで構成されています。
+
+
+-------------------
+FlaskでHello world!
+-------------------
+* virtualenvの環境にactivateした状態で行います。
+
+1. ファイルを編集します。::
+
+    vim app.py
+
+2. 以下のように編集します。
+
+.. literalinclude:: ../samples/01/app.py
+
+3. 実行します。::
+
+    python app.py
+
+4. ブラウザで http://127.0.0.1:5000 を開きます。
+
+
+解説
+=====
+::
+
+    from flask import Flask
+
+flaskパッケージのFlaskクラスをインポートしています。
+
+::
+
+    app = Flask(__name__)
+
+Flaskクラスのインスタンスを作成してします。
+
+::
+
+    @app.route('/')
+    def index():
+        return 'Hello world!'
+
+Flaskクラスのインスタンス（app）のrouteデコレータを使い、
+/ というURLに対しての処理を追加しています。
+
+::
+
+    if __name__ == '__main__':
+        app.run(debug=True)
+
+Flaskの開発用サーバーを実行しています。
+
+debug=Trueとするとデバッグモードで起動します。
+
+host='0.0.0.0'でバインドするIPの指定や、port=5000でポートを指定できます。
+
+

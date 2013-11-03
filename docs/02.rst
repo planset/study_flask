@@ -1,0 +1,186 @@
+======================
+2. Flaskチュートリアル
+======================
+
+Flask公式サイトにあるチュートリアルのFlaskrというブログアプリを実際に作っていきます。
+
+公式のチュートリアルではsqliteを直接使っていますが、
+今回はSQLAlchemyを使っていきます。
+
+
+Step 0
+======
+まずはディレクトリを作成します。
+ディレクトリとファイルは以下の様な構成となります。::
+
+    manage.py
+    requirements.txt
+    flaskr/
+      |- __init__.py
+      |- config.py
+      |- views.py
+      |- models.py
+      |- static/
+          |- style.css
+      |- templates/
+          |- layout.html
+          |- show_entries.html
+          |- login.html
+
+
+requirements.txt
+----------------
+このブログアプリに必要なライブラリを記述します。
+
+.. literalinclude:: ../samples/02/requirements.txt
+
+ここに記述したライブラリは、::
+
+    pip install -r requirements.txt
+
+を実行することでインストールすることができます。
+
+記述したら実際に実行してみて下さい。
+
+
+manage.py
+---------
+flaskrを起動して実行するためのファイルです。
+
+.. literalinclude:: ../samples/02/manage.py
+
+
+flaskr/__init__.py
+------------------
+FlaskとプラグインのSQLAlchemyを生成します。
+
+.. literalinclude:: ../samples/02/flaskr/__init__.py
+
+
+app.config.from_object('flaskr.config')はFlaskのconfigが設定ファイルを読み込む処理で、他にも以下のような処理があります。
+
+* app.config.from_envvar: 環境変数から読み込む
+* app.config.from_object: pythonオブジェクトから読み込む
+* app.config.from_pyfile: pythonファイルから読み込む
+
+
+flaskr/config.py
+----------------
+データベースの設定と、セッション情報を暗号化するためのキーを設定します。
+
+.. literalinclude:: ../samples/02/flaskr/config.py
+
+実際に運用する場合には、SECRET_KEYは必ず変更して下さい。
+
+ちなみにFlaskのドキュメントには、以下のように生成すると良いと書かれています。::
+
+    >>> import os
+    >>> os.urandom(24)
+    '\xfd{H\flash: xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8
+
+
+その他のファイルとディレクトリ
+------------------------------
+views.pyとmodels.pyは空のファイルで作成して下さい。あとから記述していきます。
+
+staticとtemplatesも空のディレクトリで作成して下さい。あとからcssやhtmlを追加します。
+
+
+Step 1
+======
+flaskrはブログなので、ブログの記事（データ）を格納する
+データベースを作ります。
+
+flaskr/models.py
+------------------
+
+.. literalinclude:: ../samples/02/flaskr/models.py
+
+
+作成したデータベース定義を読み込み、データベースファイルを作成します。::
+
+    $ python
+    >>> from flaskr.models import init
+    >>> init()
+
+これで、flaskr/flaskr.dbが生成されてます。
+
+動作を確認してみましょう。::
+
+    $ python
+    >>> from flaskr.models import Entry, db
+    >>> Entry.query.all()
+    []
+    >>> entry = Entry(title='title', text='text')
+    >>> db.session.add(entry)
+    >>> db.session.commit()
+    >>> Entry.query.all()
+    [<Entry id=1 title=u'title'>]
+
+    >>> entry = Entry.query.get(1)
+    >>> entry
+    <Entry id=1 title=u'title'>
+    >>> entry.title = 'Hello world'
+    >>> db.session.add(entry)
+    >>> db.session.commit()
+    >>> Entry.query.all()
+    [<Entry id=1 title=u'Hello world'>]
+
+    >>> entry = Entry.query.filter(Entry.title == 'Hello world').first()
+    >>> entry
+    <Entry id=1 title=u'Hello world'>
+    >>> db.session.delete(entry)
+    >>> db.session.commit()
+    >>> Entry.query.all()
+    []
+
+
+Step 2
+======
+ブログの一覧と投稿画面を作ります。
+
+投稿画面はログインしているときのみ操作できるようにします。
+
+flaskr/views.py
+
+.. literalinclude:: ../samples/02/flaskr/views.py
+
+
+:request: HTTPリクエストオブジェクト methodやフォームデータにアクセスできる
+:session: 暗号化されたcookieで実装された辞書
+:render_template: 指定したHTMLテンプレートを使ってレスポンスを返す。
+:redirect: 指定したURLにリダイレクトするレスポンスを返す。
+:url_for: 指定したエンドポイントに対するURLを返す。
+:abort: 指定したHTTPステータスコードのエラーを返す。
+:flash: メッセージを通知するための仕組み
+
+
+Step 3 
+======
+htmlテンプレートとcssを作ります。
+
+flaskr/template/layout.html
+
+.. literalinclude:: ../samples/02/flaskr/templates/layout.html
+
+flaskr/templates/show_entries.html
+
+.. literalinclude:: ../samples/02/flaskr/templates/show_entries.html
+
+flaskr/templates/login.html
+
+.. literalinclude:: ../samples/02/flaskr/templates/login.html
+
+flaskr/static/style.css
+
+.. literalinclude:: ../samples/02/flaskr/static/style.css
+
+動かしてみる
+=============
+::
+
+    python manage.py
+
+http://127.0.0.1:5000 をブラウザで開いて動作を確認してください。
+
+
