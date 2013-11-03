@@ -5,38 +5,162 @@ FlaskrをベースにWebアプリケーションを作りこむにあたって
 必要そうな内容を独断と偏見でチョイスして学習していきます。
 
 1. ユーザーログイン処理を改善する 30分
-    * Flask-Script 
-    * Flask-Login 
+    * Flask-Script
+    * Flask-Login
     * WTForms
 2. ログ Logging  10分
 3. デバッグ 10分
 4. テスト 15分
 
 
-1. コマンドライン・インタフェースの作成
-========================================
-Flaskrではconfigに書いたadminユーザーでログインしていますが、
-追加と削除ができたら便利です。
+1. ユーザーログイン処理を改善する
+==================================
+**samples/04/01を参考にして下さい**
+
+現在の処理ではユーザーはadminのみです。他のユーザーを追加削除することができません。
+
+これを登録したユーザーであればログインできるように変更しましょう。
+
+Flask-Login
+------------
+まず、ユーザー認証処理を簡単に設定できるFlask-Loginプラグインをインストールします。::
+
+    pip install Flask-Login
 
 
+ユーザークラスの追加
+----------------------
+models.pyにUserクラスを追加します。
+
+flaskr/models.py
+
+.. literalinclude:: ../samples/04/01/flaskr/models.py
 
 
+コマンドライン・インタフェースの作成
+------------------------------------
+ウェブの管理画面でユーザーを追加しても良いですが、
+コマンドラインからも追加削除できると便利です。
+
+Flask-Scriptプラグインを使うと、簡単にコマンドライン・インタフェースを作ることができます。
+
+pip install Flask-Scriptでインストールできます。::
+
+    pip install Flask-Script
 
 
-FlaskrをSQLAlchemyを使ったものに変更する
-========================================
-Flask-SQLAlchemyをインストールする::
+次のようにmanage.pyを変更します。
 
-    pip install Flask-SQLAlchemy
+manage.py
 
-flaskr/flaskr.py
+.. literalinclude:: ../samples/04/01/manage.py
 
-.. literalinclude:: ../samples/04/1/flaskr.py
 
-diff
+このように変更すると次のようなコマンドが利用可能になります。::
 
-.. literalinclude:: ../samples/04/1/flaskr.diff
-    :language: diff
+    $ python manage.py
+    usage: manage.py [-h]
+                     {shell,list_users,delete_user,runserver,create_user,init_db}
+                     ...
+
+    positional arguments:
+      {shell,list_users,delete_user,runserver,create_user,init_db}
+        shell               Runs a Python shell inside Flask application context.
+        list_users
+        delete_user
+        runserver           Runs the Flask development server i.e. app.run()
+        create_user
+        init_db
+
+    optional arguments:
+      -h, --help            show this help message and exit
+
+
+実際に追加してみましょう。::
+
+    $ python manage.py init_db
+
+    $ python manage.py list_users
+
+    $ python manage.py create_user
+    Username: testuser
+    Password:
+    User created successfully
+
+    $ python manage.py list_users
+    <User id=1 username=u'testuser'>
+
+    $ python manage.py delete_user
+    Username: testuser
+    User deleted successfully
+
+    $ python manage.py list_users
+
+    $ 
+
+
+今回は、username=testuser、password=testuserで
+ユーザーを作成しておきます。
+
+
+LoginManagerの設定
+-------------------
+**ここからはsamples/04/02を参考にして下さい**
+
+ユーザーの追加削除が簡単にできるようになったので、
+Flask-Loginの処理を完成させ、追加したユーザーでログインできるようにします。
+
+
+まず、__init__.pyからプラグインの生成処理を別ファイルにします。
+
+flaskr/core.py
+
+.. literalinclude:: ../samples/04/02/flaskr/core.py
+
+
+次にLoginManagerの設定をします。
+
+flaskr/__init__.py
+
+.. literalinclude:: ../samples/04/02/flaskr/__init__.py
+
+
+ログイン処理を修正します。
+
+flaskr/views.py
+
+.. literalinclude:: ../samples/04/02/flaskr/views.py
+
+
+テンプレートを修正します。
+
+flaskr/templates/layout.html
+
+.. literalinclude:: ../samples/04/02/flaskr/templates/layout.html
+
+flaskr/templates/show_entries.html
+
+.. literalinclude:: ../samples/04/02/flaskr/templates/show_entries.html
+
+
+実行してみます。::
+
+    python manage.py runserver
+
+ブラウザで、http://127.0.0.1:5000を開きます。
+
+作成した testuser / testuser でログインします。
+
+別のユーザーを追加してログインできることを確かめて下さい。
+
+
+CSRF対策
+--------
+対策しておくべき脆弱性の１つに１つにCSRFがあります。
+
+詳しくはこちら！
+
+.. raw:: html 
 
 
 

@@ -29,7 +29,7 @@ Pythonで学ぶwebアプリケーションの作り方by Flask
 内容
 ====
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
     :glob:
 
     01
