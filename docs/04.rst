@@ -4,13 +4,11 @@
 FlaskrをベースにWebアプリケーションを作りこむにあたって
 必要そうな内容を独断と偏見でチョイスして学習していきます。
 
-1. ユーザーログイン処理を改善する 30分
+1. ユーザーログイン処理を改善する 40分
     * Flask-Script
     * Flask-Login
-    * WTForms
-2. ログ Logging  10分
-3. デバッグ 10分
-4. テスト 15分
+    * Flask-WTF
+2. アプリを公開する 20分
 
 
 1. ユーザーログイン処理を改善する
@@ -137,10 +135,12 @@ flaskr/views.py
 flaskr/templates/layout.html
 
 .. literalinclude:: ../samples/04/02/flaskr/templates/layout.html
+    :language: html
 
 flaskr/templates/show_entries.html
 
 .. literalinclude:: ../samples/04/02/flaskr/templates/show_entries.html
+    :language: html
 
 
 実行してみます。::
@@ -154,23 +154,49 @@ flaskr/templates/show_entries.html
 別のユーザーを追加してログインできることを確かめて下さい。
 
 
-CSRF対策
---------
-対策しておくべき脆弱性の１つに１つにCSRFがあります。
 
-詳しくはこちら！
-
-.. raw:: html 
-
-
-
-
----------------------------
-2. FormをWTFormsにする
----------------------------
+Flask-WTFでフォームをクラス化
+-------------------------------
 フォームをWTFormsというライブラリを使って、クラス化します。
 
-ここらへんで、djangoを使ったほうがよかったんじゃ・・・、という気持ちが湧いてきます。
+WTFormsを使う利点としては次のようなことがあります。
+
+* フォームに関する処理がまとまる
+* CSRF対策し忘れ防止
+
+まず、wtformsというフォームツールをFlaskで簡単に扱うための
+Flask-WTFをインストールします。::
+
+    pip install Flask-WTF
 
 
-3.
+LoginFormを追加します。
+
+.. literalinclude:: ../samples/04/03/flaskr/forms.py
+
+
+viewをLoginFormを利用するように変更します。
+
+.. literalinclude:: ../samples/04/03/flaskr/views.py
+
+
+テンプレートをLoginFormを利用するように変更します。
+
+.. literalinclude:: ../samples/04/03/flaskr/templates/login.html
+    :language: html
+
+
+実行してみましょう。::
+
+    python manage.py runserver
+
+
+今までと変わらない動作をしていると思います。
+
+
+課題
+------
+EntryFormも作成しよう。
+
+
+

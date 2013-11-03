@@ -1,11 +1,23 @@
-===================================
+=====================
 7. Flaskを使いこなす2  
-===================================
+=====================
 
-:予定時間: 30分
+1. ログ Logging  10分
+2. デバッグ 10分
+3. テスト 15分
 
 
-* Testing Flask Applications  10分
+1. ログ Logging 
+===============
+
+
+2. デバッグ 10分
+===============
+
+3. テスト 15分
+===============
+
+
 * Flaskを使いこなす2    30分
     * Flaskを使った開発パターン　`Patterns for Flask — Flask 0.10.1 documentation <http://flask.pocoo.org/docs/patterns/>`_
     * Larger Applications
@@ -15,5 +27,7 @@
     * Form Validation with WTForms
     * Adding a favicon
     * Celery Based Background Tasks
-    * これらを盛り込んだハンズオン・・・は厳しいかな。説明だけかな。
+
+
+
 

@@ -162,14 +162,17 @@ htmlテンプレートとcssを作ります。
 flaskr/template/layout.html
 
 .. literalinclude:: ../samples/02/flaskr/templates/layout.html
+    :language: html
 
 flaskr/templates/show_entries.html
 
 .. literalinclude:: ../samples/02/flaskr/templates/show_entries.html
+    :language: html
 
 flaskr/templates/login.html
 
 .. literalinclude:: ../samples/02/flaskr/templates/login.html
+    :language: html
 
 flaskr/static/style.css
 
