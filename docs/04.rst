@@ -58,16 +58,19 @@ manage.py
 
     $ python manage.py
     usage: manage.py [-h]
-                     {shell,list_users,delete_user,runserver,create_user,init_db}
+
+                     {shell,run,list_users,delete_user,runserver,create_user,debug,init_db}
                      ...
 
     positional arguments:
-      {shell,list_users,delete_user,runserver,create_user,init_db}
+      {shell,run,list_users,delete_user,runserver,create_user,debug,init_db}
         shell               Runs a Python shell inside Flask application context.
+        run                 Runs the Flask development server i.e. app.run()
         list_users
         delete_user
         runserver           Runs the Flask development server i.e. app.run()
         create_user
+        debug               Runs the Flask development server i.e. app.run()
         init_db
 
     optional arguments:
@@ -145,7 +148,7 @@ flaskr/templates/show_entries.html
 
 実行してみます。::
 
-    python manage.py runserver
+    python manage.py debug
 
 ブラウザで、http://127.0.0.1:5000を開きます。
 
@@ -188,7 +191,7 @@ viewをLoginFormを利用するように変更します。
 
 実行してみましょう。::
 
-    python manage.py runserver
+    python manage.py debug
 
 
 今までと変わらない動作をしていると思います。

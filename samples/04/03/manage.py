@@ -1,9 +1,11 @@
 from __future__ import print_function
-from flask.ext.script import Manager, prompt, prompt_pass
+from flask.ext.script import Manager, Server, prompt, prompt_pass
 from flaskr import app
 from flaskr.models import User, db
 
 manager = Manager(app)
+manager.add_command("debug", Server(debug=True))
+manager.add_command("run", Server(debug=False))
 
 @manager.command
 def create_user(username, password):

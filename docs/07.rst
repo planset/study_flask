@@ -9,25 +9,121 @@
 
 1. ログ Logging 
 ===============
+flaskオブジェクトのloggerを使うことでログを出力できます。。
+
+flaskr/views.py
+
+.. literalinclude:: ../samples/07/01/flaskr/views.py
+
+この状態で実行してみます。::
+
+    python manage.py debug
+
+ログが出力されたのが確認できます。::
+
+    --------------------------------------------------------------------------------
+    DEBUG in views [/Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:10]:
+    debug
+    --------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
+    INFO in views [/Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:11]:
+    info
+    --------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
+    WARNING in views [/Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:12]:
+    warning
+    --------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
+    ERROR in views [/Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:13]:
+    error
+    --------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
+    CRITICAL in views [/Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:14]:
+    critical
+    --------------------------------------------------------------------------------
 
 
-2. デバッグ 10分
+次に、ファイルに出力するよう設定します。
+
+flaskr/log.pyを追加します。
+
+.. literalinclude:: ../samples/07/01/flaskr/log.py
+
+
+logの設定をします。
+
+.. literalinclude:: ../samples/07/01/flaskr/__init__.py
+
+
+実行してみます。今回はデバックモードをFalseで実行します。画面上にはログは出力されません。::
+
+    python manage.py run
+
+すると、画面上にログは出力されませんが、logs配下にdebug.logとerror.logが生成されます。
+
+
+2. デバッグ 
 ===============
+開発時にはブレークポイントを使ってデバッグできると便利です。
+
+幾つか方法はありますがオススメは以下の２つです。
+
+* debugを使う
+* IDE（pycharmなど）を使う
+
+debug
+------
+Flaskにかぎらずpythonプログラムのデバッグには簡単に使用できます。
+
+インストール::
+
+    pip install debug
+
+
+使い方は簡単で、ブレークポイントを張りたいところに、import debugを記述するだけです。::
+
+    import debug
+
+
+ide
+---
+pycharmやvisualstudioを使うことで、かなり簡単にデバッグすることが可能です。
+
+
 
 3. テスト 15分
 ===============
+flaskにはtest_clientというテストクライアントを取得できるので簡単に動作確認できます。
+
+::
+
+    mkdir tests
+    touch tests/__init__.py
 
 
-* Flaskを使いこなす2    30分
-    * Flaskを使った開発パターン　`Patterns for Flask — Flask 0.10.1 documentation <http://flask.pocoo.org/docs/patterns/>`_
-    * Larger Applications
-    * Application Factories
-    * Uploading Files
-    * View Decorators
-    * Form Validation with WTForms
-    * Adding a favicon
-    * Celery Based Background Tasks
+.. literalinclude:: ../samples/07/03/flaskr/__init__.py
 
 
+.. literalinclude:: ../samples/07/03/flaskr/factory.py
+
+
+.. literalinclude:: ../samples/07/03/tests/configy.py
+
+
+.. literalinclude:: ../samples/07/03/tests/test_flaskr.py
+
+
+
+4. その他いろいろ
+==================
+
+* Flaskを使った開発パターン　`Patterns for Flask — Flask 0.10.1 documentation <http://flask.pocoo.org/docs/patterns/>`_
+* Larger Applications
+* Application Factories
+* Uploading Files
+* View Decorators
+* Form Validation with WTForms
+* Adding a favicon
+* Celery Based Background Tasks
 
 
