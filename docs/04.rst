@@ -1,205 +1,338 @@
 =====================
 4. Flaskを使いこなす1  
 =====================
-FlaskrをベースにWebアプリケーションを作りこむにあたって
-必要そうな内容を独断と偏見でチョイスして学習していきます。
+Flaskrにユーザー管理画面と認証処理を追加しながら進めていきます。
 
-1. ユーザーログイン処理を改善する 40分
-    * Flask-Script
-    * Flask-Login
-    * Flask-WTF
-2. アプリを公開する 20分
+Flask公式のチュートリアルではユーザーログイン処理がありますが、
+config.pyに記述したユーザーのみになっています。
+
+今回はユーザーを追加・編集・削除できるような画面を作成し、
+そのユーザーを使ってログインできるようにしましょう。
 
 
-1. ユーザーログイン処理を改善する
-==================================
+ユーザーログイン処理を追加する1
+===============================
 **samples/04/01を参考にして下さい**
-
-現在の処理ではユーザーはadminのみです。他のユーザーを追加削除することができません。
-
-これを登録したユーザーであればログインできるように変更しましょう。
-
-Flask-Login
-------------
-まず、ユーザー認証処理を簡単に設定できるFlask-Loginプラグインをインストールします。::
-
-    pip install Flask-Login
-
 
 ユーザークラスの追加
 ----------------------
 models.pyにUserクラスを追加します。
+
+ここでは、emailとpasswordでログインするユーザーを作ります。
 
 flaskr/models.py
 
 .. literalinclude:: ../samples/04/01/flaskr/models.py
 
 
-コマンドライン・インタフェースの作成
-------------------------------------
-ウェブの管理画面でユーザーを追加しても良いですが、
-コマンドラインからも追加削除できると便利です。
+データベースの作成
+------------------
+つくったらデータベースを初期しておきましょう。
 
-Flask-Scriptプラグインを使うと、簡単にコマンドライン・インタフェースを作ることができます。
+しかし、いちいちpythonインタプリタから初期化するのは面倒なので、
+コマンドラインから作成できるようにしておきましょう。
 
-pip install Flask-Scriptでインストールできます。::
+まずは、Flaks-Scriptプラグインをインストールします。::
 
+    echo Flask-Script >> requirements.txt
     pip install Flask-Script
 
 
-次のようにmanage.pyを変更します。
+次にmanage.pyを変更します。
 
 manage.py
 
 .. literalinclude:: ../samples/04/01/manage.py
 
 
-このように変更すると次のようなコマンドが利用可能になります。::
+作成したらデータベースを作成しなおしましょう。::
 
-    $ python manage.py
-    usage: manage.py [-h]
-
-                     {shell,run,list_users,delete_user,runserver,create_user,debug,init_db}
-                     ...
-
-    positional arguments:
-      {shell,run,list_users,delete_user,runserver,create_user,debug,init_db}
-        shell               Runs a Python shell inside Flask application context.
-        run                 Runs the Flask development server i.e. app.run()
-        list_users
-        delete_user
-        runserver           Runs the Flask development server i.e. app.run()
-        create_user
-        debug               Runs the Flask development server i.e. app.run()
-        init_db
-
-    optional arguments:
-      -h, --help            show this help message and exit
+    rm flaskr/flaskr.db
+    python manage.py init_db
 
 
-実際に追加してみましょう。::
+ユーザー用のビューを追加
+------------------------
+ユーザーを管理するためのページをベースを作りましょう。
 
-    $ python manage.py init_db
+views.pyに追加していきます。::
 
-    $ python manage.py list_users
-
-    $ python manage.py create_user
-    Username: testuser
-    Password:
-    User created successfully
-
-    $ python manage.py list_users
-    <User id=1 username=u'testuser'>
-
-    $ python manage.py delete_user
-    Username: testuser
-    User deleted successfully
-
-    $ python manage.py list_users
-
-    $ 
+.. literalinclude:: ../samples/04/01/flaskr/views.py
 
 
-今回は、username=testuser、password=testuserで
-ユーザーを作成しておきます。
+* routeのパラメータ
+    * int: 整数
+    * float: 浮動小数点
+    * path: 文字列（スラッシュも受け取る）
+
+* HTTP method
+    * GET
+    * HEAD
+    * POST
+    * PUT
+    * DELETE
+    * OPTIONS
 
 
-LoginManagerの設定
--------------------
-**ここからはsamples/04/02を参考にして下さい**
-
-ユーザーの追加削除が簡単にできるようになったので、
-Flask-Loginの処理を完成させ、追加したユーザーでログインできるようにします。
-
-
-まず、__init__.pyからプラグインの生成処理を別ファイルにします。
-
-flaskr/core.py
-
-.. literalinclude:: ../samples/04/02/flaskr/core.py
-
-
-次にLoginManagerの設定をします。
-
-flaskr/__init__.py
-
-.. literalinclude:: ../samples/04/02/flaskr/__init__.py
-
-
-ログイン処理を修正します。
-
-flaskr/views.py
-
-.. literalinclude:: ../samples/04/02/flaskr/views.py
-
-
-テンプレートを修正します。
-
-flaskr/templates/layout.html
-
-.. literalinclude:: ../samples/04/02/flaskr/templates/layout.html
-    :language: html
-
-flaskr/templates/show_entries.html
-
-.. literalinclude:: ../samples/04/02/flaskr/templates/show_entries.html
-    :language: html
-
-
-実行してみます。::
+実行してみましょう
+------------------
+manage.pyを変更したので、今後は以下のコマンドで起動します。::
 
     python manage.py debug
 
-ブラウザで、http://127.0.0.1:5000を開きます。
 
-作成した testuser / testuser でログインします。
+1. ユーザーログイン処理を追加する2
+==================================
+**samples/04/02を参考にして下さい**
 
-別のユーザーを追加してログインできることを確かめて下さい。
+ユーザー管理画面を作っていきます。
+
+ユーザー作成 /users/create の追加
+---------------------------------
+flaskr/views.py::
+
+    from flaskr.models import Entry, User
+
+    ...
+
+    @app.route('/users/create/', methods=['GET', 'POST'])
+    def user_create():
+        if request.method == 'POST':
+            user = User(name=request.form['name'], 
+                        email=request.form['email'], 
+                        password=request.form['password'])
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('user_list'))
+        return render_template('user/edit.html')
+
+
+flaskr/templates/user/edit.html
+
+.. literalinclude:: ../samples/04/02/flaskr/templates/user/edit.html
 
 
 
-Flask-WTFでフォームをクラス化
--------------------------------
-フォームをWTFormsというライブラリを使って、クラス化します。
+ユーザー一覧 /users/ の追加
+---------------------------
+flaskr/views.py::
 
-WTFormsを使う利点としては次のようなことがあります。
-
-* フォームに関する処理がまとまる
-* CSRF対策し忘れ防止
-
-まず、wtformsというフォームツールをFlaskで簡単に扱うための
-Flask-WTFをインストールします。::
-
-    pip install Flask-WTF
+    @app.route('/users/')
+    def user_list():
+        users = User.query.all()
+        return render_template('user/list.html', users=users)
 
 
-LoginFormを追加します。
+flaskr/templates/user/list.html
 
-.. literalinclude:: ../samples/04/03/flaskr/forms.py
+.. literalinclude:: ../samples/04/02/flaskr/templates/user/list.html
 
 
-viewをLoginFormを利用するように変更します。
+
+ユーザー一覧 /users/<int:user_id>/ の追加
+-----------------------------------------
+flaskr/views.py::
+
+    @app.route('/users/<int:user_id>/')
+    def user_detail(user_id):
+        user = User.query.get(user_id)
+        return render_template('user/detail.html', user=user)
+
+
+flaskr/templates/user/detail.html
+
+.. literalinclude:: ../samples/04/02/flaskr/templates/user/detail.html
+
+
+ユーザー一覧 /users/<int:user_id>/edit/ の追加
+------------------------------------------------
+flaskr/views.py::
+
+    from flask import request, redirect, url_for, render_template, flash, abort
+
+    ...
+
+    @app.route('/users/<int:user_id>/edit/', methods=['GET', 'POST'])
+    def user_edit(user_id):
+        user = User.query.get(user_id)
+        if user is None:
+            abort(404)
+        if request.method == 'POST':
+            user.name=request.form['name']
+            user.email=request.form['email']
+            user.password=request.form['password']
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('user_detail', user_id=user_id))
+        return render_template('user/edit.html', user=user)
+
+
+ユーザー一覧 /users/<int:user_id>/delete/ の追加
+------------------------------------------------
+flaskr/views.py::
+
+    from flask import request, redirect, url_for, render_template, flash, abort, \
+            jsonify
+
+    ...
+
+    @app.route('/users/<int:user_id>/delete/', methods=['DELETE'])
+    def user_delete(user_id):
+        user = User.query.get(user_id)
+        if user is None:
+            response = jsonify({'status': 'Not Found'})
+            response.status_code = 404
+            return response
+        db.session.delete(user)
+        db.session.commit()
+    return jsonify({'status': 'OK'})
+
+
+実行してみましょう
+------------------
+::
+
+    python manage.py debug
+
+
+ユーザーログイン処理を追加する3
+==================================
+**samples/04/03を参考にして下さい**
+
+モクモクと作っていきます
+
+ログイン画面の追加
+------------------
+flaskr/views.py::
+
+    from flask import request, redirect, url_for, render_template, flash, abort, \
+            jsonify, session
+
+    ...
+    
+    @app.route('/login', methods=['GET', 'POST'])
+    def login():
+        if request.method == 'POST':
+            user, authenticated = User.authenticate(db.session.query, 
+                    request.form['email'], request.form['password'])
+            if authenticated:
+                session['user_id'] = user.id
+                flash('You were logged in')
+                return redirect(url_for('show_entries'))
+            else:
+                flash('Invalid email or password')
+        return render_template('login.html')
+
+    @app.route('/logout')
+    def logout():
+        session.pop('user_id', None)
+        flash('You were logged out')
+        return redirect(url_for('show_entries'))
+
+
+flaskr/templates/login.html
+
+.. literalinclude:: ../samples/04/03/flaskr/templates/login.html
+
+
+flaskr/templates/layout.html
+
+.. literalinclude:: ../samples/04/03/flaskr/templates/layout.html
+
+
+ログインしないと記事を追加できないように変更します。
+
+flaskr/templates/show_entries.html
+
+.. literalinclude:: ../samples/04/03/flaskr/templates/show_entries.html
+
+
+実行してみましょう
+------------------
+::
+
+    python manage.py debug
+
+
+
+
+ユーザー管理画面は認証していない人には見せたくない
+----------------------------------------------------
+ユーザー管理画面など一般ユーザーには見せたくないページがあります。
+
+先ほど作成したユーザー管理画面を、ログインしないと見れないように変更します。
+
+flaskr/views.py::
+
+    from functools import wraps
+    from flask import request, redirect, url_for, render_template, flash, abort, \
+            jsonify, session, g
+
+    ...
+
+    def login_required(f):
+        @wraps(f)
+        def decorated_view(*args, **kwargs):
+            if g.user is None:
+                return redirect(url_for('auth.signin', next=request.path))
+            return f(*args, **kwargs)
+        return decorated_view
+
+    @app.before_request
+    def load_user():
+        if 'user_id' in session:
+            g.user = User.query.get(session['user_id'])
+
+    ...
+
+    @app.route('/users/')
+    @login_required
+    def user_list():
+
+    ...
+
+    @app.route('/users/<int:user_id>/')
+    @login_required
+    def user_detail(user_id):
+
+    ...
+
+    @app.route('/users/<int:user_id>/edit/', methods=['GET', 'POST'])
+    @login_required
+    def user_edit(user_id):
+
+    ...
+
+    @app.route('/users/create/', methods=['GET', 'POST'])
+    @login_required
+    def user_create():
+
+    ...
+
+    @app.route('/users/<int:user_id>/delete/', methods=['DELETE'])
+    def user_delete(user_id):
+
+
+* before_request
+    * beforeがあるということは、afterもある。
+    * session['user_id']に格納したuser.idからUserを取得
+    * gというFlaskインスタンス内のグローバルのような変数にuserを追加
+* login_required
+    * デコレータを定義 
+    * g.userを確認してログインしているかをチェックしている。
+
+
+書き換えたviews.pyはこちら
 
 .. literalinclude:: ../samples/04/03/flaskr/views.py
 
 
-テンプレートをLoginFormを利用するように変更します。
-
-.. literalinclude:: ../samples/04/03/flaskr/templates/login.html
-    :language: html
-
-
-実行してみましょう。::
+実行してみましょう
+------------------
+::
 
     python manage.py debug
 
 
-今までと変わらない動作をしていると思います。
 
-
-課題
-------
-EntryFormも作成しよう。
-
-
-
+ログイン処理ができました。なんとなくそれっぽくなりました。

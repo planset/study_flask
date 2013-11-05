@@ -1,39 +1,14 @@
 from __future__ import print_function
-from flask.ext.script import Manager, Server, prompt, prompt_pass
-from flaskr import app
-from flaskr.models import User, db
+from flask.ext.script import Manager, Server
+from flaskr import app, db
 
 manager = Manager(app)
-manager.add_command("debug", Server(debug=True))
-manager.add_command("run", Server(debug=False))
-
-@manager.command
-def create_user(username, password):
-    username = username or prompt('Username')
-    password = password or prompt_pass('Password')
-    user = User(username=username, password=password)
-    db.session.add(user)
-    db.session.commit()
-    print('User created successfully')
-
-@manager.command
-def delete_user(username):
-    username = username or prompt('Username')
-    user = User.query.filter(User.username==username).first()
-    db.session.delete(user)
-    db.session.commit()
-    print('User deleted successfully')
-
-@manager.command
-def list_users():
-    for user in User.query.all():
-        print(user)
+manager.add_command("runserver", Server(host='0.0.0.0', port=5000))
+manager.add_command("debug", Server(port=5000, host='0.0.0.0', debug=True))
 
 @manager.command
 def init_db():
     db.create_all()
 
-
 if __name__ == '__main__':
     manager.run()
-

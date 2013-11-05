@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
+
+sys.path.append(os.path.abspath('_themes'))
+
 #
 # testpdf documentation build configuration file, created by
 # sphinx-quickstart on Wed May 18 09:35:50 2011.
@@ -11,8 +16,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import os
-CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -26,10 +29,7 @@ CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo', 'sphinx.ext.coverage',
-              'sphinxcontrib.blockdiag', 'sphinxcontrib.nwdiag',
-              'sphinxcontrib.actdiag', 'sphinxcontrib.seqdiag',
-              'sphinxjp.themecore']
+extensions = ['sphinx.ext.todo']
 todo_include_todos=True
 
 html_search_language = 'ja'
@@ -48,7 +48,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'mydoc'
+project = u'study flask'
 copyright = u'Daisuke Igarashi'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -100,10 +100,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'sphinxdoc'
-html_theme = 'nature'
-#html_theme = 'default'
-#html_theme = 'sphinxjp'
+html_theme = 'flask'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -111,7 +108,7 @@ html_theme = 'nature'
 #html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-#html_theme_path = []
+html_theme_path = ['_themes']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -227,30 +224,4 @@ man_pages = [
      [u'test'], 1)
 ]
 
-
-# Fontpath for blockdiag (truetype font)
-blockdiag_fontpath = os.path.join(CUR_DIR, '_files/ipagp.ttf')
-blockdiag_antialias = True
-blockdiag_html_image_format = 'PNG' # 'PNG' or 'SVG'
-blockdiag_tex_image_format = 'PNG' # 'PNG' or 'SVG'
-
-seqdiag_fontpath = os.path.join(CUR_DIR, '_files/ipagp.ttf')
-seqdiag_antialias = True
-seqdiag_html_image_format = 'PNG' # 'PNG' or 'SVG'
-seqdiag_tex_image_format = 'PNG' # 'PNG' or 'SVG'
-
-actdiag_fontpath = os.path.join(CUR_DIR, '_files/ipagp.ttf')
-actdiag_antialias = True
-actdiag_html_image_format = 'PNG' # 'PNG' or 'SVG'
-actdiag_tex_image_format = 'PNG' # 'PNG' or 'SVG'
-
-nwdiag_fontpath = os.path.join(CUR_DIR, '_files/ipagp.ttf')
-nwdiag_antialias = True
-nwdiag_html_image_format = 'PNG' # 'PNG' or 'SVG'
-nwdiag_tex_image_format = 'PNG' # 'PNG' or 'SVG'
-
-#
-# sphinxcontrib-googleanalytics
-# 
-googleanalytics_id=''
 

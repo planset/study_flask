@@ -1,15 +1,31 @@
-from flask.ext.login import UserMixin
+from sqlalchemy.orm import synonym
+from werkzeug import check_password_hash, generate_password_hash
+
 from flaskr import db
 
 
-class User(db.Model, UserMixin):
+class User(db.Model):
     __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column('password', db.String(100), nullable=False)
+    name = db.Column(db.String(100), default='', nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    _password = db.Column('password', db.String(100), nullable=False)
+
+    def _get_password(self):
+        return self._password
+    def _set_password(self, password):
+        if password:
+            password = password.strip()
+        self._password = generate_password_hash(password)
+    password_descriptor = property(_get_password, _set_password)
+    password = synonym('_password', descriptor=password_descriptor)
 
     def check_password(self, password):
-        return self.password == password
+        password = password.strip()
+        if not password:
+            return False
+        return check_password_hash(self.password, password)
 
     @classmethod
     def authenticate(cls, query, username, password):
@@ -32,4 +48,7 @@ class Entry(db.Model):
     def __repr__(self):
         return '<Entry id={id} title={title!r}>'.format(
                 id=self.id, title=self.title)
+
+def init():
+    db.create_all()
 

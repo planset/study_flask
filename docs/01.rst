@@ -1,32 +1,27 @@
 ===================================
 1. Webアプリケーションを作る準備 
 ===================================
-
-----
-概要
-----
 Flaskでウェブアプリケーションを開発するために必要となるライブラリや
 ツールをインストールします。
 
 
-----------------------------------
 今回のハンズオン用のファイルを取得
-----------------------------------
+===================================
+Flaskでウェブアプリケーションを開発するために必要となるライブラリや
 gitが使える方::
 
-    git clone git@github.com:planset/study_python_flask
+    git clone https://github.com/planset/study_python_flask
 
 gitが使えない方は
 `planset/study_python_flask <http://github.com/planset/study_python_flask>`_
 からzipファイルをダウンロードして展開してください。
 
 
-----------------
 各種インストール
-----------------
+===================================
 
 pip
-===
+---
 パッケージを管理するツールです。
 
 インストール方法::
@@ -63,7 +58,7 @@ pip
 
 
 virtualenv
-==========
+----------
 グローバルな環境のpythonには影響しないよう、
 個別のpython環境を管理するためのツールです。
 
@@ -76,7 +71,7 @@ virtualenvwrapperも入れると便利です。
 
 
 Flask
-=====
+-----
 WebフレームワークのFlaskです。
 
 インストール方法::
@@ -84,31 +79,71 @@ WebフレームワークのFlaskです。
     pip install Flask
 
 
--------------
+実際に環境を作ってみよう
+========================
+実際にpythonの仮想環境を作ってみましょう。
+
+まず、今日のハンズオンで使うディレクトリを作成し、
+更にその中の env というディレクトリに仮想環境を構築します。
+
+構築したらenv/bin/activateまたはenv/Scripts/activate.batを実行して仮想環境に入ります。
+
+.. code-block:: console
+
+    $ mkdir handson
+    handson $ cd handson
+    handson $ virtualenv env
+    handson $ source env/bin/activate
+    [env] handson $
+
+仮想環境に入るとコンソールに[env]というように現在の仮想環境が表示されます。
+
+Flaskをインストールしましょう。
+
+.. code-block:: console
+
+    [env] handson $ pip install flask
+    ...
+    Successfully installed Flask Werkzeug Jinja2 itsdangerous markupsafe
+    Cleaning up...
+
+色々と表示がでますが、最後にSuccessfullyと表示されていればOKです。
+
+
 Flaskについて
--------------
+=============
 Flaskはマイクロフレームワークと呼ばれる部類の
 ウェブアプリケーションフレームワークです。
 
 フルスタックフレームワークと違い必要最小限の機能だけで構成されています。
 
+Hellow world!で簡単な例を確認してみましょう。
 
--------------------
+
 FlaskでHello world!
--------------------
-* virtualenvの環境にactivateした状態で行います。
+====================
+**virtualenvの環境にactivateした状態で行います。**
 
-1. ファイルを編集します。::
+1. ファイルを編集します。
 
+.. code-block:: console
+
+    mkdir helloworld
+    cd helloworld
     vim app.py
+
 
 2. 以下のように編集します。
 
 .. literalinclude:: ../samples/01/app.py
 
-3. 実行します。::
+
+3. 実行します。
+
+.. code-block:: console
 
     python app.py
+
 
 4. ブラウザで http://127.0.0.1:5000 を開きます。
 

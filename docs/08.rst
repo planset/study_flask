@@ -3,6 +3,46 @@
 ====================================
 
 
+favicon
+=======
+ログを見ていると404エラーがでている行があります。::
+
+    127.0.0.1 - - [04/Nov/2013 20:36:33] "GET /favicon.ico HTTP/1.1" 404 -
+
+faviconです。ブラウザがfavicon.icoを取得しにきているのですが、
+そんなルートを追加していないのでエラーになります。
+
+faviconを配信するには以下のようにします。::
+
+    import os
+    from flask import send_from_directory
+
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(os.path.join(app.root_path, 'static'),
+                                   'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+他にも方法はありますが、実稼働させた場合、faviconやstaticなファイルは
+フロントエンドのnginxなどで配信させるため、わかりやすい@app.routeで
+追加しておくと良いです。
+
+:参考: `Adding a favicon — Flask 0.10.1 documentation <http://flask.pocoo.org/docs/patterns/favicon/>`_
+
+
+プラグイン
+==========
+
+Flask-Security
+---------------
+Flaskのフォーム処理や認証処理などをセキュアにしてくれるプラグインが詰まったプラグイン
+
+Flask-Social
+
+Flask-Admin
+
+Flask-DebugToolbar
+
+
 
 
 公式ドキュメント

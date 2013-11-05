@@ -1,10 +1,13 @@
 =====================
 7. Flaskを使いこなす2  
 =====================
+ここからはハンズオンではなく紹介です。
 
-1. ログ Logging  10分
-2. デバッグ 10分
-3. テスト 15分
+話を聞きながら気になったら実装してみてください。
+
+1. ログ Logging
+2. デバッグ
+3. テスト
 
 
 1. ログ Logging 
@@ -125,5 +128,160 @@ flaskにはtest_clientというテストクライアントを取得できるの�
 * Form Validation with WTForms
 * Adding a favicon
 * Celery Based Background Tasks
+
+
+コマンドライン・インタフェースの作成
+------------------------------------
+次のようにmanage.pyを変更します。
+
+.. literalinclude:: ../samples/04/01/manage.py
+
+
+このように変更すると次のようなコマンドが利用可能になります。::
+
+    $ python manage.py
+    usage: manage.py [-h]
+
+                     {shell,run,list_users,delete_user,runserver,create_user,debug,init_db}
+                     ...
+
+    positional arguments:
+      {shell,run,list_users,delete_user,runserver,create_user,debug,init_db}
+        shell               Runs a Python shell inside Flask application context.
+        run                 Runs the Flask development server i.e. app.run()
+        list_users
+        delete_user
+        runserver           Runs the Flask development server i.e. app.run()
+        create_user
+        debug               Runs the Flask development server i.e. app.run()
+        init_db
+
+    optional arguments:
+      -h, --help            show this help message and exit
+
+
+実際に追加してみましょう。::
+
+    $ python manage.py init_db
+
+    $ python manage.py list_users
+
+    $ python manage.py create_user
+    Username: testuser
+    Password:
+    User created successfully
+
+    $ python manage.py list_users
+    <User id=1 username=u'testuser'>
+
+    $ python manage.py delete_user
+    Username: testuser
+    User deleted successfully
+
+    $ python manage.py list_users
+
+    $ 
+
+
+今回は、username=testuser、password=testuserで
+ユーザーを作成しておきます。
+
+
+LoginManagerの設定
+-------------------
+**ここからはsamples/04/02を参考にして下さい**
+
+ユーザーの追加削除が簡単にできるようになったので、
+Flask-Loginの処理を完成させ、追加したユーザーでログインできるようにします。
+
+
+まず、__init__.pyからプラグインの生成処理を別ファイルにします。
+
+flaskr/core.py
+
+.. literalinclude:: ../samples/04/02/flaskr/core.py
+
+
+次にLoginManagerの設定をします。
+
+flaskr/__init__.py
+
+.. literalinclude:: ../samples/04/02/flaskr/__init__.py
+
+
+ログイン処理を修正します。
+
+flaskr/views.py
+
+.. literalinclude:: ../samples/04/02/flaskr/views.py
+
+
+テンプレートを修正します。
+
+flaskr/templates/layout.html
+
+.. literalinclude:: ../samples/04/02/flaskr/templates/layout.html
+    :language: html
+
+flaskr/templates/show_entries.html
+
+.. literalinclude:: ../samples/04/02/flaskr/templates/show_entries.html
+    :language: html
+
+
+実行してみます。::
+
+    python manage.py debug
+
+ブラウザで、http://127.0.0.1:5000を開きます。
+
+作成した testuser / testuser でログインします。
+
+別のユーザーを追加してログインできることを確かめて下さい。
+
+
+
+Flask-WTFでフォームをクラス化
+-------------------------------
+フォームをWTFormsというライブラリを使って、クラス化します。
+
+WTFormsを使う利点としては次のようなことがあります。
+
+* フォームに関する処理がまとまる
+* CSRF対策し忘れ防止
+
+まず、wtformsというフォームツールをFlaskで簡単に扱うための
+Flask-WTFをインストールします。::
+
+    pip install Flask-WTF
+
+
+LoginFormを追加します。
+
+.. literalinclude:: ../samples/04/03/flaskr/forms.py
+
+
+viewをLoginFormを利用するように変更します。
+
+.. literalinclude:: ../samples/04/03/flaskr/views.py
+
+
+テンプレートをLoginFormを利用するように変更します。
+
+.. literalinclude:: ../samples/04/03/flaskr/templates/login.html
+    :language: html
+
+
+実行してみましょう。::
+
+    python manage.py debug
+
+
+今までと変わらない動作をしていると思います。
+
+
+課題
+------
+EntryFormも作成しよう。
 
 

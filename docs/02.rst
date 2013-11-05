@@ -2,7 +2,7 @@
 2. Flaskチュートリアル
 ======================
 
-Flask公式サイトにあるチュートリアルのFlaskrというブログアプリを実際に作っていきます。
+Flask公式チュートリアルのFlaskrというブログアプリを作っていきます。
 
 公式のチュートリアルではsqliteを直接使っていますが、
 今回はSQLAlchemyを使っていきます。
@@ -11,7 +11,8 @@ Flask公式サイトにあるチュートリアルのFlaskrというブログア
 Step 0
 ======
 まずはディレクトリを作成します。
-ディレクトリとファイルは以下の様な構成となります。::
+
+最終的なディレクトリとファイルは以下の様な構成となります。::
 
     manage.py
     requirements.txt
@@ -25,8 +26,18 @@ Step 0
       |- templates/
           |- layout.html
           |- show_entries.html
-          |- login.html
 
+
+以下の様な感じで作成します。::
+
+    cd 先ほどhelloworldディレクトリを作成したディレクトリ
+    mkdir -p tutorial/flaskr/{static,templates}
+    cd tutorial
+    touch manage.py requirements.txt
+    touch flaskr/{__init__,views,models,config}.py
+    touch flaskr/static/style.css
+    touch flaskr/templates/{layout,show_entries}.html
+    
 
 requirements.txt
 ----------------
@@ -164,19 +175,17 @@ flaskr/template/layout.html
 .. literalinclude:: ../samples/02/flaskr/templates/layout.html
     :language: html
 
+
 flaskr/templates/show_entries.html
 
 .. literalinclude:: ../samples/02/flaskr/templates/show_entries.html
     :language: html
 
-flaskr/templates/login.html
-
-.. literalinclude:: ../samples/02/flaskr/templates/login.html
-    :language: html
 
 flaskr/static/style.css
 
 .. literalinclude:: ../samples/02/flaskr/static/style.css
+
 
 動かしてみる
 =============
