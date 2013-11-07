@@ -9,16 +9,90 @@ Flaskをデプロイする方法
 
 :参考: `Deployment Options — Flask 0.10.1 documentation <http://flask.pocoo.org/docs/deploying/>`_
 
-色々あるけど、以下の３つがおすすめ。
+色々あるけど、私は以下の３つがおすすめ。
 
 * apache の mod_wsgi
-* uWSGI + nginx リバースプロキシ
+* uWSGI + nginx
 * PaaS: heroku, dotCloud
+
+
+mod_wsgi
+=============
+* 簡単。
+* でも、遅い
+
+詳細は省略！
+
+こちらの記事がオススメです。
+
+* `Apache+mod_wsgi+Flaskインストール | Azrael <http://zafiel.wingall.com/archives/2309>`_
+
+
+uWSGI + nginx
+=============
+* uwsgi（とgunicorn）はわりとよく使われていそうなuWSGIサーバー。
+* nginxからstaticファイルを直接配信させたり、キャッシュを使ったりできる。
+* ただし、Linux, nginxに関する知識も必要となる。
+* uwsgiサーバーを自動起動・自動再起動するのに他の仕組みを使う必要がある。
+
+
+uwsgiのインストール
+
+`Quickstart for python/WSGI applications — uWSGI 1.9 documentation <http://uwsgi-docs.readthedocs.org/en/latest/WSGIquickstart.html>`_
+
+
+nginxのコンフィグ
+nginx config::
+
+    location = /flaskr { rewrite ^ /flaskr/; }
+    location /flaskr { try_files $uri @flaskr;}
+    location @flaskr {
+        include uwsgi_params;
+        uwsgi_param SCRIPT_NAME /flaskr;
+        uwsgi_modifier1 30;
+        uwsgi_pass unix:/tmp/uwsgi.sock;
+    }
+
+
+/path/to/flaskrにflaskrディレクトリを置く::
+
+    /path/to/flaskr/
+      |- flaskr/
+         |- __init__.py
+         |- ...
+      |- manage.py
+      |- requirements.txt
+
+
+/path/to/flaskrでvirtualenvを作る::
+
+    cd /path/to/flaskr
+    virtualenv env
+    source env/bin/activate
+    pip install -r requirements.txt
+
+
+uwsgiの実行::
+
+    sudo -u nginx /path/to/uwsgi -s /tmp/uwsgi.sock --chdir /path/to/flaskr --exec-as-user nginx -H env --module flaskr --callable app
+
+
+他にもiniファイルに設定を記述してから実行もできる。
+
+
+こちらの記事がオススメです。
+
+* `Python Flaskアプリを nginx + uWSGI 環境下へデプロイしたのでメモ | Azrael <http://zafiel.wingall.com/archives/7513>`_
+
 
 
 PaaS: heroku
 =============
-今回はherokuにデプロイしてみます。
+今日はherokuにデプロイしてみます。
+
+* PaaSを使えば、サーバーとかそういうのを意識する必要がない！
+* herokuの枠を外れることをしようとすると諦める or がんばる必要がある。
+
 
 1. アカウントを作成
 --------------------
@@ -46,7 +120,7 @@ PaaS: heroku
 * `Heroku Toolbelt <https://toolbelt.heroku.com/>`_
 
 インストールが完了したら、terminalからheroku login
-を実行してherokuにログインできることを確認します。
+を実行してherokuにログインできることを確認します。::
 
     $ heroku login
     Enter your Heroku credentials.
@@ -59,22 +133,26 @@ PaaS: heroku
 
 3. heroku用にファイルを変更
 ----------------------------
-::
+開発環境にgunicornをインストールします。::
 
     pip install gunicorn
 
 
-requirements.txtにgunicornを追加
+requirements.txtにgunicornを追加します。
+
+requirements.txt
 
 .. literalinclude:: ../samples/05/requirements.txt
 
 
 Procfileを追加する。
 
+Procfile
+
 .. literalinclude:: ../samples/05/Procfile
 
 
-foremanで起動のテスト::
+Herokuのアプリを起動するForemanで起動のテスト::
 
     $ foreman start
     01:19:17 web.1  | started with pid 2062
@@ -105,6 +183,8 @@ heroku createでアプリを作成します。::
     http://peaceful-wildwood-3278.herokuapp.com/ | git@heroku.com:peaceful-wildwood-3278.git
     Git remote heroku added
 
+自動でgitにremoteが追加されます。
+
 
 5. herokuにpush
 ---------------
@@ -133,6 +213,19 @@ heroku createのときに表示されたURLで確認する。
 
 わからなければ、herokuにログインしてappsのsettingsで確認する。
 
+あとはgit remote -vでみるとか。
+（herokuはあまり使ったことないので知ってる人いたら教えてー！::
+
+    git remote -v
+    heroku  git@heroku.com:gentle-beyond-1917.git (fetch)
+    heroku  git@heroku.com:gentle-beyond-1917.git (push)
+
+
+8. uwsgi
+----------
+ここではgunicornを使いましたが、uwsgiを使ってもできます。
+
+* `uwsgi-docs/tutorials/heroku_python.rst at master · unbit/uwsgi-docs <https://github.com/unbit/uwsgi-docs/blob/master/tutorials/heroku_python.rst>`_
 
 
 

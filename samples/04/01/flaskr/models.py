@@ -28,14 +28,14 @@ class User(db.Model):
         return check_password_hash(self.password, password)
 
     @classmethod
-    def authenticate(cls, query, username, password):
-        user = query(cls).filter(cls.username==username).first()
+    def authenticate(cls, query, email, password):
+        user = query(cls).filter(cls.email==email).first()
         if user is None:
             return None, False
         return user, user.check_password(password)
 
     def __repr__(self):
-        return u'<User id={self.id} username={self.username!r}>'.format(
+        return u'<User id={self.id} email={self.email!r}>'.format(
                 self=self)
 
 

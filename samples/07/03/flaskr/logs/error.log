@@ -1,0 +1,89 @@
+2013-11-04 02:17:12,331 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:13]
+2013-11-04 02:17:12,332 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:14]
+2013-11-04 02:17:20,525 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:13]
+2013-11-04 02:17:20,526 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:14]
+2013-11-04 02:17:23,452 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:13]
+2013-11-04 02:17:23,463 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:14]
+2013-11-04 02:18:16,598 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:13]
+2013-11-04 02:18:16,598 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:14]
+2013-11-04 02:21:54,943 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:13]
+2013-11-04 02:21:54,946 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:14]
+2013-11-04 02:45:11,790 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:13]
+2013-11-04 02:45:11,790 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:14]
+2013-11-04 02:45:14,494 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:13]
+2013-11-04 02:45:14,494 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:14]
+2013-11-04 02:45:32,566 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:13]
+2013-11-04 02:45:32,566 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:14]
+2013-11-04 02:45:48,522 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:13]
+2013-11-04 02:45:48,523 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:14]
+2013-11-04 02:48:13,920 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:13]
+2013-11-04 02:48:13,920 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:14]
+2013-11-04 03:11:52,347 ERROR: Exception on / [GET] [in /Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py:1423]
+Traceback (most recent call last):
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py", line 13, in show_entries
+    app.logger.debug('debug')
+NameError: global name 'app' is not defined
+2013-11-04 03:13:51,322 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:14:08,545 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:14:08,546 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:15:00,111 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:15:00,112 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:16:04,373 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:16:04,374 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:16:59,741 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:16:59,741 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:17:09,471 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:17:09,471 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:18:27,435 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:18:27,435 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:18:32,551 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:18:32,551 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:18:35,346 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:18:35,347 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:28:26,644 ERROR: Exception on /add [POST] [in /Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py:1423]
+Traceback (most recent call last):
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask_login.py", line 657, in decorated_view
+    return current_app.login_manager.unauthorized()
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask_login.py", line 188, in unauthorized
+    return redirect(login_url(self.login_view, request.url))
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask_login.py", line 510, in login_url
+    base = url_for(login_view)
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/helpers.py", line 312, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/app.py", line 1641, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/flask/helpers.py", line 305, in url_for
+    force_external=external)
+  File "/Users/daisuke/Dropbox/private/study_python_flask/env/lib/python2.7/site-packages/werkzeug/routing.py", line 1620, in build
+    raise BuildError(endpoint, values, method)
+BuildError: ('login', {}, None)
+2013-11-04 03:47:39,077 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:47:39,077 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:47:39,118 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:47:39,118 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:48:32,254 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:48:32,255 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:48:32,319 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:48:32,320 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]
+2013-11-04 03:49:05,139 ERROR: error [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:16]
+2013-11-04 03:49:05,140 CRITICAL: critical [in /Users/daisuke/Dropbox/private/study_python_flask/samples/07/03/flaskr/views.py:17]

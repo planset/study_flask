@@ -35,7 +35,7 @@ class User(db.Model):
         return user, user.check_password(password)
 
     def __repr__(self):
-        return u'<User id={self.id} username={self.username!r}>'.format(
+        return u'<User id={self.id} email={self.email!r}>'.format(
                 self=self)
 
 

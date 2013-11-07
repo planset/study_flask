@@ -1,6 +1,6 @@
-====================================
-8. プラグイン、情報源紹介、Q/A、予備  
-====================================
+===================
+8. Tips, プラグイン
+===================
 
 
 favicon
@@ -10,7 +10,7 @@ favicon
     127.0.0.1 - - [04/Nov/2013 20:36:33] "GET /favicon.ico HTTP/1.1" 404 -
 
 faviconです。ブラウザがfavicon.icoを取得しにきているのですが、
-そんなルートを追加していないのでエラーになります。
+そんなルートは追加していないのでエラーになります。
 
 faviconを配信するには以下のようにします。::
 
@@ -37,20 +37,68 @@ Flask-Security
 Flaskのフォーム処理や認証処理などをセキュアにしてくれるプラグインが詰まったプラグイン
 
 Flask-Social
+---------------
 
 Flask-Admin
+---------------
 
 Flask-DebugToolbar
+-------------------
+
+Flask-Assets
+-------------------
+
+Flask-WTF
+-------------------
+フォームをWTFormsというライブラリを使って、クラス化します。
+
+WTFormsを使う利点としては次のようなことがあります。
+
+* フォームに関する処理がまとまる
+* セキュリティ対策
+
+まず、wtformsというフォームツールをFlaskで簡単に扱うための
+Flask-WTFをインストールします。::
+
+    pip install Flask-WTF
+
+
+LoginFormを追加します。
+
+.. literalinclude:: ../samples/08/wtforms/flaskr/forms.py
+
+
+viewをLoginFormを利用するように変更します。
+
+.. literalinclude:: ../samples/08/wtforms/flaskr/views.py
+
+
+テンプレートをLoginFormを利用するように変更します。
+
+.. literalinclude:: ../samples/08/wtforms/flaskr/templates/login.html
+    :language: html
+
+
+実行してみましょう。::
+
+    python manage.py debug
+
+
+今までと変わらない動作をしていると思います。
 
 
 
+ドキュメント
+============
 
 公式ドキュメント
 ----------------
 * 
 
-
 チュートリアル
 --------------
 * `The Flask Mega-Tutorial, Part I: Hello, World! - miguelgrinberg.com <http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world>`_
+
+
+
 

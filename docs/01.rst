@@ -10,7 +10,7 @@ Flaskでウェブアプリケーションを開発するために必要となる
 Flaskでウェブアプリケーションを開発するために必要となるライブラリや
 gitが使える方::
 
-    git clone https://github.com/planset/study_python_flask
+    git clone https://github.com/planset/study_flask
 
 gitが使えない方は
 `planset/study_python_flask <http://github.com/planset/study_python_flask>`_
