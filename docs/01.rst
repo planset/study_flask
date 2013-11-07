@@ -13,8 +13,8 @@ gitが使える方::
     git clone https://github.com/planset/study_flask
 
 gitが使えない方は
-`planset/study_python_flask <http://github.com/planset/study_python_flask>`_
-からzipファイルをダウンロードして展開してください。
+`ここをクリック <https://github.com/planset/study_flask/archive/master.zip>`_
+してzipファイルをダウンロードして展開してください。
 
 
 各種インストール
@@ -27,14 +27,6 @@ pip
 インストール方法::
 
     easy_install pip
-
-    #mac
-    brew install pip
-    sudo port install py27-pip
-
-    #linux
-    sudo apt-get install python-pip
-    sudo yum install python-pip
 
 
 使い方::
