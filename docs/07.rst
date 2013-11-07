@@ -182,12 +182,11 @@ flaskにはtest_clientというテストクライアントを取得できるの�
 
 その他いろいろ
 ==============
+`Flaskのパターン — flask-docs-ja 0.10-dev documentation <https://flask-docs-ja.readthedocs.org/en/latest/patterns/#patterns>`_
 
-* Flaskを使った開発パターン　`Patterns for Flask — Flask 0.10.1 documentation <http://flask.pocoo.org/docs/patterns/>`_
 * Larger Applications
 * Application Factories
 * Uploading Files
-* View Decorators
 * Form Validation with WTForms
 * Adding a favicon
 * Celery Based Background Tasks

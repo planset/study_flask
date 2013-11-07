@@ -29,6 +29,20 @@ faviconを配信するには以下のようにします。::
 :参考: `Adding a favicon — Flask 0.10.1 documentation <http://flask.pocoo.org/docs/patterns/favicon/>`_
 
 
+migrate database
+===================
+sqlalchemyを利用してcreate_allするのはよいのですが、
+毎回データが無くなってしまいます。
+
+そうならないように、データベースに変更がある箇所だけ変更して、
+データを壊さないようにアップグレードしたいです。
+
+Railsのmigrationです。
+
+pythonの場合、alembicというパッケージを使います。
+
+
+
 プラグイン
 ==========
 

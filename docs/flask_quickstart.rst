@@ -1,7 +1,7 @@
 ================
 Flask quickstart
 ================
-:参照: Flask QUICKSTART
+:参照: `クイックスタート — flask-docs-ja 0.10-dev documentation <https://flask-docs-ja.readthedocs.org/en/latest/quickstart/#quickstart>`_
 
 A Minimal Application: OK
 
