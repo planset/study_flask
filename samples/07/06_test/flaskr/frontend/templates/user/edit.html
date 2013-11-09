@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% if request.endpoint.endswith('edit') %}
+  {% set title = 'Edit User' %}
+{% else %}
+  {% set title = 'Add User' %}
+{% endif %}
+
+{% block body %}
+  <h2>{{ title }}</h2>
+  <form action="" method="post">
+    <dl>
+      <dt>Name:
+      <dd><input type=text size=20 name=name value="{{ user.name if user }}">
+      <dt>Email:
+      <dd><input type=text size=20 name=email value="{{ user.email if user }}">
+      <dt>password:
+      <dd><input type=password size=20 name=password value="">
+      <dd><input type=submit value=create>
+    </dl>
+  </form>
+{% endblock %}
+

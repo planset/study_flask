@@ -78,7 +78,7 @@ views.pyに追加していきます。
 ------------------
 manage.pyを変更したので、今後は以下のコマンドで起動します。::
 
-    python manage.py debug
+    python manage.py runserver
 
 
 
@@ -193,7 +193,7 @@ flaskr/views.py::
 ------------------
 ::
 
-    python manage.py debug
+    python manage.py runserver
 
 
 4.3 ユーザーログイン処理を追加する3
@@ -253,7 +253,7 @@ flaskr/templates/show_entries.html
 ------------------
 ::
 
-    python manage.py debug
+    python manage.py runserver
 
 
 
@@ -337,7 +337,7 @@ flaskr/views.py::
 ------------------
 ::
 
-    python manage.py debug
+    python manage.py runserver
 
 
 ログイン処理ができました。なんとなくそれっぽくなりましたね。

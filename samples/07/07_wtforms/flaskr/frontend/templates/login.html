@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Login</h2>
+
+  {% for error in form.errors %}
+    <p class=error><strong>Error:</strong> {{ error }}
+  {% endfor %}
+
+  <form action="{{ url_for('.login') }}" method=post>
+    {{ form.hidden_tag() }}
+    <dl>
+      <dt>{{ form.email.label }}:
+      <dd>{{ form.email(size=20) }}
+      <dt>{{ form.password.label }}:
+      <dd>{{ form.password(size=20) }}
+      <dd>{{ form.submit }}
+    </dl>
+  </form>
+
+{% endblock %}

@@ -9,7 +9,7 @@ Flaskをデプロイする方法
 
 :参考: `Deployment Options — Flask 0.10.1 documentation <http://flask.pocoo.org/docs/deploying/>`_
 
-色々あるけど、私は以下の３つがおすすめ。
+色々ありますが、私は以下の３つがおすすめです。
 
 * apache の mod_wsgi
 * uWSGI + nginx
@@ -30,20 +30,21 @@ mod_wsgi
 
 uWSGI + nginx
 =============
-* uwsgi（とgunicorn）はわりとよく使われていそうなuWSGIサーバー。
-* nginxからstaticファイルを直接配信させたり、キャッシュを使ったりできる。
-* ただし、Linux, nginxに関する知識も必要となる。
-* uwsgiサーバーを自動起動・自動再起動するのに他の仕組みを使う必要がある。
+* uwsgi（とgunicorn）はわりとよく使われていそうなWSGIサーバー。
+* nginxからstaticファイルを直接配信させたり、キャッシュを使ったりできます。
+* ただし、Linux, nginxに関する知識も必要となります。
+* uwsgiサーバーを自動起動・自動再起動するのに他の仕組みを使う必要があります。
+    * supervisor, circusなど
+
+手順
+----
+1. uwsgiのインストールをします。::
+
+    pip install uwsgi
 
 
-uwsgiのインストール
-
-`Quickstart for python/WSGI applications — uWSGI 1.9 documentation <http://uwsgi-docs.readthedocs.org/en/latest/WSGIquickstart.html>`_
-
-
-nginxのコンフィグ
-nginx config::
-
+2. nginxをインストールして設定をします。::
+   
     location = /flaskr { rewrite ^ /flaskr/; }
     location /flaskr { try_files $uri @flaskr;}
     location @flaskr {
@@ -54,7 +55,7 @@ nginx config::
     }
 
 
-/path/to/flaskrにflaskrディレクトリを置く::
+3. /path/to/flaskrにflaskrディレクトリを置きます::
 
     /path/to/flaskr/
       |- flaskr/
@@ -64,7 +65,7 @@ nginx config::
       |- requirements.txt
 
 
-/path/to/flaskrでvirtualenvを作る::
+4. /path/to/flaskrにvirtualenvで必要なライブラリをインストールした環境を作ります::
 
     cd /path/to/flaskr
     virtualenv env
@@ -72,14 +73,14 @@ nginx config::
     pip install -r requirements.txt
 
 
-uwsgiの実行::
+5. uwsgiを実行します。::
 
     sudo -u nginx /path/to/uwsgi -s /tmp/uwsgi.sock --chdir /path/to/flaskr --exec-as-user nginx -H env --module flaskr --callable app
 
 
-他にもiniファイルに設定を記述してから実行もできる。
 
-
+参考
+----
 こちらの記事がオススメです。
 
 * `Python Flaskアプリを nginx + uWSGI 環境下へデプロイしたのでメモ | Azrael <http://zafiel.wingall.com/archives/7513>`_
@@ -90,8 +91,10 @@ PaaS: heroku
 =============
 今日はherokuにデプロイしてみます。
 
-* PaaSを使えば、サーバーとかそういうのを意識する必要がない！
-* herokuの枠を外れることをしようとすると諦める or がんばる必要がある。
+* PaaSを使えば、linuxとかnginxとかを直接意識する必要がなくなります。
+* アプリの開発に集中できます。
+
+* ただし、PaaSの枠を外れることをしようとすると諦める or がんばる必要がある。
 
 
 1. アカウントを作成

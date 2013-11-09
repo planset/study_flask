@@ -1,45 +1,29 @@
 ===================
-8. Tips, プラグイン
+8. プラグイン
 ===================
 
 
-favicon
-=======
-ログを見ていると404エラーがでている行があります。::
+migrate database alembic
+========================
+開発を進めている中でデータベースの構造が変更になることがあると思います。
 
-    127.0.0.1 - - [04/Nov/2013 20:36:33] "GET /favicon.ico HTTP/1.1" 404 -
-
-faviconです。ブラウザがfavicon.icoを取得しにきているのですが、
-そんなルートは追加していないのでエラーになります。
-
-faviconを配信するには以下のようにします。::
-
-    import os
-    from flask import send_from_directory
-
-    @app.route('/favicon.ico')
-    def favicon():
-        return send_from_directory(os.path.join(app.root_path, 'static'),
-                                   'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
-他にも方法はありますが、実稼働させた場合、faviconやstaticなファイルは
-フロントエンドのnginxなどで配信させるため、わかりやすい@app.routeで
-追加しておくと良いです。
-
-:参考: `Adding a favicon — Flask 0.10.1 documentation <http://flask.pocoo.org/docs/patterns/favicon/>`_
-
-
-migrate database
-===================
-sqlalchemyを利用してcreate_allするのはよいのですが、
+そんなときrmしてdb.create_all()するとデータベースを再生性できますが、
 毎回データが無くなってしまいます。
+
+開発環境ではよいですが、稼働環境ではそれはまずいです。
 
 そうならないように、データベースに変更がある箇所だけ変更して、
 データを壊さないようにアップグレードしたいです。
 
-Railsのmigrationです。
+sqliteでは無理なのですが、python+sqlalchemy+mysqlの場合、alembicというパッケージを使います。
 
-pythonの場合、alembicというパッケージを使います。
+
+（省略・・・！）
+
+
+リンク
+------
+1* `Welcome to Alembic’s documentation! — Alembic 0.6.1 documentation <https://alembic.readthedocs.org/en/latest/index.html>`_
 
 
 
@@ -50,69 +34,35 @@ Flask-Security
 ---------------
 Flaskのフォーム処理や認証処理などをセキュアにしてくれるプラグインが詰まったプラグイン
 
-Flask-Social
----------------
-
-Flask-Admin
----------------
-
-Flask-DebugToolbar
--------------------
 
 Flask-Assets
 -------------------
+sass,typescriptのコンパイルからcss,jsのminifyまでまとめてやってくれるプラグイン
 
-Flask-WTF
+`Flask-Assets — Flask-Assets 0.8 documentation <http://elsdoerfer.name/docs/flask-assets/>`_
+
+
+
+Flask-Social
+---------------
+twitter,facebook,foursquare,googleのアカウントでログインできるようにするプラグイン
+
+書いてる時点ではbuildがfailing。。。
+
+`Connection <http://pythonhosted.org/Flask-Social/>`_
+
+
+Flask-Admin
+---------------
+管理者用の画面や、モデル（テーブル）を閲覧・編集するための画面を作ってくれる。
+
+`Flask-Admin — flask-admin 1.0.7 documentation <http://flask-admin.readthedocs.org/en/latest/>`_
+
+
+Flask-DebugToolbar
 -------------------
-フォームをWTFormsというライブラリを使って、クラス化します。
+画面の横にデバッグツールバーが表示され、SQLにかかった時間などが表示される。
 
-WTFormsを使う利点としては次のようなことがあります。
-
-* フォームに関する処理がまとまる
-* セキュリティ対策
-
-まず、wtformsというフォームツールをFlaskで簡単に扱うための
-Flask-WTFをインストールします。::
-
-    pip install Flask-WTF
-
-
-LoginFormを追加します。
-
-.. literalinclude:: ../samples/08/wtforms/flaskr/forms.py
-
-
-viewをLoginFormを利用するように変更します。
-
-.. literalinclude:: ../samples/08/wtforms/flaskr/views.py
-
-
-テンプレートをLoginFormを利用するように変更します。
-
-.. literalinclude:: ../samples/08/wtforms/flaskr/templates/login.html
-    :language: html
-
-
-実行してみましょう。::
-
-    python manage.py debug
-
-
-今までと変わらない動作をしていると思います。
-
-
-
-ドキュメント
-============
-
-公式ドキュメント
-----------------
-* 
-
-チュートリアル
---------------
-* `The Flask Mega-Tutorial, Part I: Hello, World! - miguelgrinberg.com <http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world>`_
-
-
+`Flask-DebugToolbar — Flask-DebugToolbar 0.8.0 documentation <http://flask-debugtoolbar.readthedocs.org/en/latest/>`_
 
 

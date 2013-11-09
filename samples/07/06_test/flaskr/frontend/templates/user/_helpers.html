@@ -1,0 +1,18 @@
+{% macro detail(user, show_edit=false, show_delete=false) %}
+<h2>{{ user.name }}</h2>
+<div>
+  <div>{{ user.email }}</div>
+  <div>{{ user.created | datetime }}</div>
+  <div>{{ user.modified | datetime }}</div>
+</div>
+<div>
+  <ul>
+{% if show_edit %}
+    <li><a href="{{ url_for('.user_edit', user_id=user.id) }}">edit</a></li>
+{% endif %}
+{% if show_edit %}
+    <li><a class="user-delete-link" href="#" data-delete-url="{{ url_for('.user_delete', user_id=user.id) }}">delete</a></li>
+{% endif %}
+  </ul>
+</div>
+{% endmacro %} 

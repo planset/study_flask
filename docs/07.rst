@@ -1,132 +1,206 @@
 =====================
 7. Flaskを使いこなす2  
 =====================
-ここからはハンズオンではなく紹介です。
 
-話を聞きながら気になったら実装してみてください。
 
-* jinja2 macro
-* jinja2 filter
-* 
-* logging
-* debug
-* test
+* :ref:`favicon`
+* :ref:`jinja2_macro`
+* :ref:`jinja2_filter`
+* :ref:`logging`
+* :ref:`blueprint`
+* :ref:`debug`
+* :ref:`test`
 
+
+.. _favicon:
+
+favicon
+============
+**samples/07/01_faviconを参考にして下さい**
+
+ログを見ていると404エラーがでている行があります。::
+
+    127.0.0.1 - - [04/Nov/2013 20:36:33] "GET /favicon.ico HTTP/1.1" 404 -
+
+faviconです。ブラウザがfavicon.icoを取得しにきているのですが、
+そんなルートは追加していないのでエラーになります。
+
+faviconを配信させるには、html側で指定するか、
+Flask側で/favicon.icoのURLルールを追加するとよいです。::
+
+    import os
+    from flask import send_from_directory
+
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(os.path.join(app.root_path, 'static'),
+                                   'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+::
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+
+:参考: `Adding a favicon — Flask 0.10.1 documentation <http://flask.pocoo.org/docs/patterns/favicon/>`_
+
+
+
+.. _jinja2_macro:
 
 jinja2 macro
 =============
+**samples/07/02_macroを参考にして下さい。**
+
 テンプレートを書いていると、同じような処理がでてくることがあります。
 
-そんなとき、関数のようにまとめることができるのが、jinja2のmacroです。
+そんなとき、htmlテンプレートを関数のようにまとめることができるのが、
+jinja2のmacro機能です。
 
 今回作成したFlaskrのユーザー管理画面のdetailをマクロ化してみると、
 
-_helper.html::
+flaskr/templates/user/_helpers.html
 
-    {% macro detail(user, show_edit=false, show_delete=false) %}
-    <h2>{{ user.name }}</h2>
-    <div>
-      <div>{{ user.email }}</div>
-    </div>
-    <div>
-      <ul>
-    {% if show_edit %}
-        <li><a href="{{ url_for('user_edit', user_id=user.id) }}">edit</a></li>
-    {% endif %}
-    {% if show_edit %}
-        <li><a class="user-delete-link" href="#" data-delete-url="{{ url_for('user_delete', user_id=user.id) }}">delete</a></li>
-    {% endif %}
-      </ul>
-    </div>
-    {% endmacro %} 
+.. literalinclude:: ../samples/07/02_macro/flaskr/templates/user/_helpers.html
 
+次のように使います。
 
-次のように使います。::
+flaskr/templates/user/detail.html::
 
-    {% from '_helper.html' import detail %}
+    {% from 'user/_helpers.html' import detail with context %}
 
     ...
 
+    {% block body %}
+
     {{ detail(user) }}
 
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
 
+    ...
+
+
+
+.. _jinja2_filter:
 
 フィルター
 ===========
+**samples/07/03_filterを参考にして下さい。**
+
 Jinja2に独自のフィルターを登録したい場合には、以下のようにします。::
 
-    @app.template_filter('reverse')
-    def reverse_filter(s):
-        return s[::-1]
+    def do_datetime(dt, format='%Y-%m-%d @ %H:%M'):
+        formatted = ''
+        if dt is not None:
+            formatted = dt.strftime(format)
+        return formatted
 
-    def reverse_filter(s):
-        return s[::-1]
-    app.jinja_env.filters['reverse'] = reverse_filter  
+    app.jinja_env.filters['datetime'] = do_datetime
+
 
 上のフィルターを使う場合にはこうします::
 
-    {% for x in mylist | reverse %}
-    {% endfor %}
+    {{ user.modified | datetime }}
+    {{ user.created | datetime('%Y-%m-%d') }}
 
 
-よく使うのは、日付のフォーマットです。
+こうすることで、データベースや変数では扱いやすいdatetimeオブジェクトで持ち、
+ビューで見た目だけを整形して出力することができます。
 
 
+
+.. _logging:
 
 ログ
 ====
-flaskオブジェクトのloggerを使うことでログを出力できます。。
+**samples/07/04_loggingを参考にして下さい**
 
-flaskr/views.py
+flaskオブジェクトのloggerを使うことでログを出力できます。
 
-.. literalinclude:: ../samples/07/01/flaskr/views.py
+まず、ロガーのレベル設定をします。
+「このレベル以上のログを出力する」という指定です。::
 
-この状態で実行してみます。::
+    app.logger.setLevel(logging.DEBUG)
 
-    python manage.py debug
+ログのレベルは DEBUG -> INFO -> WARNING -> ERROR -> CRITICAL の順で高くなります。
 
-ログが出力されたのが確認できます。::
+logging.DEBUGに設定したので、全てのログが
+コンソール（デフォルトの出力先）に出力されます。
 
-    --------------------------------------------------------------------------------
-    DEBUG in views [/Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:10]:
-    debug
-    --------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------
-    INFO in views [/Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:11]:
-    info
-    --------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------
-    WARNING in views [/Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:12]:
-    warning
-    --------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------
-    ERROR in views [/Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:13]:
-    error
-    --------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------
-    CRITICAL in views [/Users/daisuke/Dropbox/private/study_python_flask/samples/07/01/flaskr/views.py:14]:
-    critical
-    --------------------------------------------------------------------------------
+利用する場合には、views.pyなどで以下のように使います。::
 
+    app.logger.debug('debug message')
+    app.logger.info('info message')
+    app.logger.warning('warning message')
+    app.logger.error('error message')
+    app.logger.critical('critical message')
+
+
+このままではFlaskをdebug=Trueで実行した時にコンソールにメッセージがでるだけです。
 
 次に、ファイルに出力するよう設定します。
 
-flaskr/log.pyを追加します。
+flaskr/logs.pyを追加します。
 
-.. literalinclude:: ../samples/07/01/flaskr/log.py
-
-
-logの設定をします。
-
-.. literalinclude:: ../samples/07/01/flaskr/__init__.py
+.. literalinclude:: ../samples/07/04_logging/flaskr/logs.py
 
 
-実行してみます。今回はデバックモードをFalseで実行します。画面上にはログは出力されません。::
+* ここでは、debug.logとしてINFO以上のログを、
+  error.logとしてERROR以上のログを、
+  ファイルに記録するように設定しています。
+* formatterも指定できるので、JSONフォーマットでログを記録することもできます。
 
-    python manage.py run
 
-すると、画面上にログは出力されませんが、logs配下にdebug.logとerror.logが生成されます。
+.. _blueprint:
 
+モジュール分割
+==============
+**samples/07/05_blueprintを参考にして下さい**
+
+ビューが増えてきて１つのファイルにするには大きくなってしまった場合、
+モジュール（Blueprint）に分けることができます。
+
+URLの登録の仕方は@app.routeのときと同じで、@bp.routeで追加することができます。
+
+sample_user.py::
+
+    from flask import Blueprint
+
+    bp = Blueprint('users', __name__, url_prefix='/users')
+
+    @bp.route('/')
+    def user_list():
+        return 'list'
+
+
+ここで登録した@bp.route('/')は、url_prefix='/users'と結合され、
+@app.route('/users/')を登録したのと同じことになります。
+
+作成したBlueprintのインスタンスbpをappに登録します。
+
+app.py::
+
+    from flask import Flask
+    from sample_user import bp
+
+    app = Flask(__name__)
+    app.register_blueprint(bp)
+
+
+これで、直接app.routeしたときと同じ動作をします。
+
+注意することはあまりありませんが、Flaskのインスタンスが
+持っているloggerなどはBlueprintのインスタンスにはありません。
+
+そのため、current_app経由でアクセスすることになります。::
+
+    from flask import current_app
+
+    current_app.logger.debug('hoge')
+
+
+
+.. _debug:
 
 デバッグ 
 ========
@@ -156,40 +230,83 @@ ide
 pycharmやvisualstudioを使うことで、かなり簡単にデバッグすることが可能です。
 
 
+.. _test:
 
 テスト 
 ======
-flaskにはtest_clientというテストクライアントを取得できるので簡単に動作確認できます。
+**samples/07/06_testを参考にして下さい**
+
+Flaskではapp.test_clientにテスト用のクライアントがあります。
+
+これをrequestを投げてresponseをもらうということが簡単にできます。
 
 ::
 
-    mkdir tests
-    touch tests/__init__.py
+    $ python
+    >>> from flaskr import app
+    >>> client = app.client()
+    >>> r = client.get('/entries/')
+    >>> r.status
+    >>> r.data
 
 
-.. literalinclude:: ../samples/07/03/flaskr/__init__.py
+これらを利用して、テストをしていきます。
+（Flaskには関係のないライブラリは普通にテストすればよいです）
+
+テストを実行する場合には、unittestそのままでもよいですが、
+nosettests, pytestを利用するとより便利です。
 
 
-.. literalinclude:: ../samples/07/03/flaskr/factory.py
+フォームのクラス化とCSRF対策
+=============================
+**samples/07/07_wtformsを参考にして下さい**
+
+フォームをWTFormsというライブラリを使って、クラス化します。
+
+WTFormsを使う利点としては次のようなことがあります。
+
+* 各入力項目の仕様をまとめられる
+* セキュリティ対策(CSRF対策)を簡単に実装できる
+
+まず、wtformsというフォームツールをFlaskで簡単に扱うための
+Flask-WTFをインストールします。::
+
+    pip install Flask-WTF
 
 
-.. literalinclude:: ../samples/07/03/tests/configy.py
+LoginFormを追加します。
+
+.. literalinclude:: ../samples/07/07_wtforms/flaskr/forms.py
 
 
-.. literalinclude:: ../samples/07/03/tests/test_flaskr.py
+viewをLoginFormを利用するように変更します。
 
+.. literalinclude:: ../samples/07/07_wtforms/flaskr/frontend/users.py
+
+
+テンプレートをLoginFormを利用するように変更します。
+
+.. literalinclude:: ../samples/07/07_wtforms/flaskr/frontend/templates/login.html
+    :language: html
+
+
+実行してみましょう。::
+
+    python manage.py runserver
+
+
+今までと変わらない動作をしていると思います。
+
+しかし、ログイン画面でソースを見てみるとcsrf_tokenが追加されています。
+
+これはwtformsのhidden_tagまたはcsrf_tokenで出力され、
+POSTしたときcsrf_tokenのチェックが行われます。
 
 
 その他いろいろ
 ==============
 `Flaskのパターン — flask-docs-ja 0.10-dev documentation <https://flask-docs-ja.readthedocs.org/en/latest/patterns/#patterns>`_
 
-* Larger Applications
-* Application Factories
 * Uploading Files
-* Form Validation with WTForms
-* Adding a favicon
 * Celery Based Background Tasks
-
-
 
