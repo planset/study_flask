@@ -15,7 +15,7 @@ migrate database alembic
 そうならないように、データベースに変更がある箇所だけ変更して、
 データを壊さないようにアップグレードしたいです。
 
-sqliteでは無理なのですが、python+sqlalchemy+mysqlの場合、alembicというパッケージを使います。
+そんなときはalembicというパッケージを使います。
 
 
 （省略・・・！）
@@ -40,7 +40,6 @@ Flask-Assets
 sass,typescriptのコンパイルからcss,jsのminifyまでまとめてやってくれるプラグイン
 
 `Flask-Assets — Flask-Assets 0.8 documentation <http://elsdoerfer.name/docs/flask-assets/>`_
-
 
 
 Flask-Social

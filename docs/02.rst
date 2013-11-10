@@ -68,7 +68,8 @@ FlaskとプラグインのSQLAlchemyを生成します。
 .. literalinclude:: ../samples/02/flaskr/__init__.py
 
 
-app.config.from_object('flaskr.config')はFlaskのconfigが設定ファイルを読み込む処理で、他にも以下のような処理があります。
+app.config.from_object('flaskr.config')はFlaskのconfigが
+設定ファイルを読み込む処理で、他にも以下のような処理があります。
 
 * app.config.from_envvar: 環境変数から読み込む
 * app.config.from_object: pythonオブジェクトから読み込む
@@ -158,7 +159,6 @@ flaskr/views.py
 
 
 :request: HTTPリクエストオブジェクト methodやフォームデータにアクセスできる
-:session: 暗号化されたcookieで実装された辞書
 :render_template: 指定したHTMLテンプレートを使ってレスポンスを返す。
 :redirect: 指定したURLにリダイレクトするレスポンスを返す。
 :url_for: 指定したエンドポイントに対するURLを返す。

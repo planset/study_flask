@@ -36,6 +36,7 @@ uWSGI + nginx
 * uwsgiサーバーを自動起動・自動再起動するのに他の仕組みを使う必要があります。
     * supervisor, circusなど
 
+
 手順
 ----
 1. uwsgiのインストールをします。::
@@ -78,13 +79,11 @@ uWSGI + nginx
     sudo -u nginx /path/to/uwsgi -s /tmp/uwsgi.sock --chdir /path/to/flaskr --exec-as-user nginx -H env --module flaskr --callable app
 
 
-
 参考
 ----
 こちらの記事がオススメです。
 
 * `Python Flaskアプリを nginx + uWSGI 環境下へデプロイしたのでメモ | Azrael <http://zafiel.wingall.com/archives/7513>`_
-
 
 
 PaaS: heroku

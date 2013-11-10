@@ -10,12 +10,13 @@
 * :ref:`blueprint`
 * :ref:`debug`
 * :ref:`test`
+* :ref:`wtforms`
 
 
 .. _favicon:
 
 favicon
-============
+=======
 **samples/07/01_faviconを参考にして下さい**
 
 ログを見ていると404エラーがでている行があります。::
@@ -257,6 +258,8 @@ Flaskではapp.test_clientにテスト用のクライアントがあります。
 nosettests, pytestを利用するとより便利です。
 
 
+.. _wtforms:
+
 フォームのクラス化とCSRF対策
 =============================
 **samples/07/07_wtformsを参考にして下さい**
@@ -305,7 +308,7 @@ POSTしたときcsrf_tokenのチェックが行われます。
 
 その他いろいろ
 ==============
-`Flaskのパターン — flask-docs-ja 0.10-dev documentation <https://flask-docs-ja.readthedocs.org/en/latest/patterns/#patterns>`_
+`Patterns for Flask — Flask 0.10.1 documentation <http://flask.pocoo.org/docs/patterns/>`_
 
 * Uploading Files
 * Celery Based Background Tasks
