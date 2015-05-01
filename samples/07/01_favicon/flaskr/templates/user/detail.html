@@ -24,7 +24,7 @@
         type: 'DELETE',
         success: function(response) {
           if (response.status == 'OK') {
-            window.location = {{ url_for('user_list') }};
+            window.location = '{{ url_for('user_list') }}';
           } else {
             alert('Delete failed.')
           }
